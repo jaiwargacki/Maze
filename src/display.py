@@ -66,17 +66,19 @@ class Display:
         """
         return self.maze[col][row]
 
-    def draw_square(self, color, x, y):
+    def draw_square(self, color, x, y, update=True):
         """
         Used to draw a square to the screen.
         :param color: color of square.
         :param x: x-coordinate of maze square.
         :param y: y-coordinate of maze square.
+        :param update: If the display should update, default True.
         """
         pygame.draw.rect(self.screen, color,
                          pygame.Rect(x * constants.UNIT, y * constants.UNIT,
                                      constants.UNIT, constants.UNIT))
-        pygame.display.update()
+        if update:
+            pygame.display.update()
 
     def update_square(self, row, col, state):
         """

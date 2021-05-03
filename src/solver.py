@@ -40,6 +40,8 @@ class Solver:
         """
         if type_search == "dfs":
             self.maze.dfs(display, self.maze.start)
+        # TODO - Implement more searches
+        display.draw_square(constants.START_COLOR, self.maze.start.col, self.maze.start.row)
 
 
 class Maze:
@@ -115,7 +117,7 @@ class Maze:
                 visited.add(n)
                 display.draw_square(constants.CONSIDERING_PATH_COLOR, n.col, n.row)
                 if self.dfs(display, n, visited):
-                    display.draw_square(constants.FOUND_PATH_COLOR, n.col, n.row)
+                    display.draw_square(constants.FOUND_PATH_COLOR, n.col, n.row, False)
                     return True
         return False
 
