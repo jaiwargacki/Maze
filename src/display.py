@@ -1,5 +1,6 @@
 import pygame
 import constants
+import solver
 
 """ File used to display mazes. Capable of loading/saving mazes. """
 __author__ = "Jai Wargacki"
@@ -125,8 +126,7 @@ class Display:
                 elif pressed[pygame.K_e]:
                     self.update_square(x, y, constants.END)
                 elif pressed[pygame.K_m]:
-                    continue
-                    # TODO - Save maze state and call solver
+                    solve = solver.Solver(self.file)
                 elif pressed[pygame.K_q]:
                     self.save_maze()
                 elif pressed[pygame.K_ESCAPE] or event.type == pygame.QUIT:
