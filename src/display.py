@@ -19,9 +19,12 @@ BLANK_COLOR = (255, 255, 255)
 START_COLOR = (0, 200, 0)
 END_COLOR = (0, 0, 200)
 
+# File stuff
+DEFAULT_FILE_NAME = "temp_maze.txt"
+
 
 class Display:
-    __slots__ = "maze", "width", "height", "screen"
+    __slots__ = "maze", "width", "height", "screen", "file"
 
     def __init__(self, width, height, filename=None):
         """
@@ -39,7 +42,10 @@ class Display:
         pygame.display.set_caption(WINDOW_TITLE)
         f = None
         if filename is not None:
+            self.file = filename
             f = open(filename, "r")
+        else:
+            self.file = DEFAULT_FILE_NAME
         for col in range(0, self.height):
             self.maze.append(list())
             for row in range(0, self.width):
@@ -58,7 +64,7 @@ class Display:
 
     def __str__(self):
         """
-        String method used for debugging.
+        String method used for saving maze to file.
         :return: String version of current state of the display maze.
         """
         final = ""
@@ -106,6 +112,16 @@ class Display:
             color = END_COLOR
         self.draw_square(color, row, col)
 
+    def save_maze(self):
+        """
+        Saves the current maze to a file.
+        """
+        f = open(self.file, "w")
+        s = str(self)
+        f.write(s)
+        f.close()
+        exit(0)
+
     def run(self):
         """
         Run the maze program.
@@ -128,8 +144,7 @@ class Display:
                     continue
                     # TODO - Save maze state and call solver
                 elif pressed[pygame.K_q]:
-                    continue
-                    # TODO - Save maze
+                    self.save_maze()
                 elif pressed[pygame.K_ESCAPE] or event.type == pygame.QUIT:
                     pygame.display.quit()
                     return

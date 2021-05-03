@@ -23,7 +23,6 @@ def main():
         display = d.Display(width, height, args[3])
     else:
         display = d.Display(width, height)
-
     # Call display program
     display.run()
 
