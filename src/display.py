@@ -12,6 +12,7 @@ WALL = "X"
 BLANK = " "
 START = "S"
 END = "E"
+NEW_LINE = "\n"
 
 # Color constants
 WALL_COLOR = (0, 0, 0)
@@ -21,6 +22,8 @@ END_COLOR = (0, 0, 200)
 
 # File stuff
 DEFAULT_FILE_NAME = "temp_maze.txt"
+READ = "r"
+WRITE = "w"
 
 
 class Display:
@@ -43,7 +46,7 @@ class Display:
         f = None
         if filename is not None:
             self.file = filename
-            f = open(filename, "r")
+            f = open(filename, READ)
         else:
             self.file = DEFAULT_FILE_NAME
         for col in range(0, self.height):
@@ -55,7 +58,7 @@ class Display:
                 else:
                     while True:
                         n = f.read(1)
-                        if n != "\n":
+                        if n != NEW_LINE:
                             self.update_square(row, col, n)
                             break
         if filename is not None:
@@ -116,7 +119,7 @@ class Display:
         """
         Saves the current maze to a file.
         """
-        f = open(self.file, "w")
+        f = open(self.file, WRITE)
         s = str(self)
         f.write(s)
         f.close()
