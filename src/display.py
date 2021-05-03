@@ -127,6 +127,7 @@ class Display:
                     self.update_square(x, y, constants.END)
                 elif pressed[pygame.K_m]:
                     solve = solver.Solver(self.file)
+                    solve.solve(self)
                 elif pressed[pygame.K_q]:
                     self.save_maze()
                 elif pressed[pygame.K_ESCAPE] or event.type == pygame.QUIT:

@@ -31,7 +31,15 @@ class Solver:
                     col += 1
                 row += 1
                 line = f.readline()
-        print(self.maze)
+
+    def solve(self, display, type_search="dfs"):
+        """
+        Solves the maze, printing result to the provided display.
+        :param display: The display to print result.
+        :param type_search: Type of search to be user.
+        """
+        if type_search == "dfs":
+            self.maze.dfs(display, self.maze.start)
 
 
 class Maze:
@@ -88,6 +96,28 @@ class Maze:
         """
         self.connections[node1].add(node2)
         self.connections[node2].add(node1)
+
+    def dfs(self, display, current, visited=None):
+        """
+        Solves maze using dfs, printing results to GUI.
+        :param display: Display to print results.
+        :param current: Node considering.
+        :param visited: Set of already visited nodes.
+        :return: True on success, False on failure.
+        """
+        if visited is None:
+            visited = set()
+            visited.add(current)
+        for n in self.connections[current]:
+            if n == self.end:
+                return True
+            if n not in visited:
+                visited.add(n)
+                display.draw_square(constants.CONSIDERING_PATH_COLOR, n.col, n.row)
+                if self.dfs(display, n, visited):
+                    display.draw_square(constants.FOUND_PATH_COLOR, n.col, n.row)
+                    return True
+        return False
 
 
 class Node:
