@@ -8,6 +8,7 @@ BLANK = " "
 START = "S"
 END = "E"
 NEW_LINE = "\n"
+EMPTY = ""
 
 # Color constants
 WALL_COLOR = (0, 0, 0)
