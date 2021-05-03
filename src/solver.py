@@ -39,9 +39,13 @@ class Solver:
         :param type_search: Type of search to be user.
         """
         if type_search == "dfs":
-            self.maze.dfs(display, self.maze.start)
+            solution = self.maze.dfs(display, self.maze.start)
         # TODO - Implement more searches
+
+        for n in solution:
+            display.draw_square(constants.FOUND_PATH_COLOR, n.col, n.row, False)
         display.draw_square(constants.START_COLOR, self.maze.start.col, self.maze.start.row)
+        display.draw_square(constants.END_COLOR, self.maze.end.col, self.maze.end.row)
 
 
 class Maze:
@@ -105,21 +109,21 @@ class Maze:
         :param display: Display to print results.
         :param current: Node considering.
         :param visited: Set of already visited nodes.
-        :return: True on success, False on failure.
+        :return: List of steps, empty if not solvable.
         """
         if visited is None:
             visited = set()
             visited.add(current)
         for n in self.connections[current]:
             if n == self.end:
-                return True
+                return [n]
             if n not in visited:
                 visited.add(n)
                 display.draw_square(constants.CONSIDERING_PATH_COLOR, n.col, n.row)
-                if self.dfs(display, n, visited):
-                    display.draw_square(constants.FOUND_PATH_COLOR, n.col, n.row, False)
-                    return True
-        return False
+                a = self.dfs(display, n, visited)
+                if a:
+                    return [n] + a
+        return []
 
 
 class Node:
