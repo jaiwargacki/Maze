@@ -1,7 +1,37 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Maze";
 }
 
 <div class="text-center">
     <h1 class="display-4">Maze</h1>
+    <div>
+        <table>
+            <tr>
+                <td>Width: </td>
+                <td><input id="WidthInput" type="number" name="width" min="3" max="100" value="10"/></td>
+                <td></td>
+                <td>Height: </td>
+                <td><input id="HeightInput" type="number" name="height" min="3" max="100" value="10"/></td>
+                <td><button id="CreateMaze" onclick="CreateMaze()">Create</button></td>
+            </tr>
+        </table>
+    </div>
+    <div id="MazeContainer"></div>
 </div>
+
+<script>
+    function CreateMaze() {
+        $.ajax({
+            type: "POST",
+            url: "/Home/CreateMaze",
+            data: { 
+                width: document.getElementById('WidthInput').value, 
+                height: document.getElementById('HeightInput').value 
+            },
+            success: function (data) {
+                var mazeHolder = document.getElementById('MazeContainer')
+                mazeHolder.innerHTML = data;
+            }
+        });
+    }
+</script>

@@ -1,0 +1,30 @@
+﻿@model Maze
+@{
+    Layout = null;
+}
+
+<table>
+    @for(int x = 0; x < Model.Width; x++) {
+        <tr>
+            @for(int y = 0; y < Model.Height; y++) {
+                <td>
+                    @switch (Model.GetSquare(x, y).Type) {
+                        case Square.SquareType.EMPTY:
+                            <div class="square"></div>
+                            break;
+                        case Square.SquareType.WALL:
+                            <div class="squareWall"></div>
+                            break;
+                        case Square.SquareType.START:
+                            <div class="squareStart"></div>
+                            break;
+                        case Square.SquareType.END:
+                            <div class="squareEnd"></div>
+                            break;
+                    }
+                    <div></div>
+                </td>
+            }
+        </tr>
+    }
+</table>

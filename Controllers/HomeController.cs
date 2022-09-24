@@ -18,6 +18,13 @@ public class HomeController : Controller
         return View();
     }
 
+    [HttpPost]
+    public IActionResult CreateMaze(int width, int height)
+    {
+        Models.Maze maze = new Models.Maze(width, height);
+        return View(maze);
+    }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {

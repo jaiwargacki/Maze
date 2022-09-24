@@ -1,3 +1,11 @@
+:root {
+  --square-size: 2rem;
+  --square-color: white;
+  --square-wall-color: black;
+  --square-start-color: green;
+  --square-end-color: red;
+}
+
 html {
   font-size: 14px;
 }
@@ -15,4 +23,29 @@ html {
 
 body {
   margin-bottom: 60px;
+}
+
+/* Square Styling */
+.square {
+  width: var(--square-size);
+  height: var(--square-size);
+  background-color: var(--square-color);
+}
+
+.squareWall {
+  width: var(--square-size);
+  height: var(--square-size);
+  background-color: var(--square-wall-color);
+}
+
+.squareStart {
+  width: var(--square-size);
+  height: var(--square-size);
+  background-color: var(--square-start-color);
+}
+
+.squareEnd {
+  width: var(--square-size);
+  height: var(--square-size);
+  background-color: var(--square-end-color);
 }
