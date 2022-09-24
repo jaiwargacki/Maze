@@ -20,6 +20,9 @@
                 <td><button id="START" onclick="SelectSquareType(START)">Start</button></td>
                 <td><button id="END" onclick="SelectSquareType(END)">End</button></td>
             </tr>
+            <tr>
+                <td><button id="SOLVE" onclick="Solve()">Solve</button></td>
+            </tr>
         </table>
     </div>
     <div id="MazeContainer"></div>
@@ -41,8 +44,47 @@
         currentSquareType = squareType;
     }
 
+    function ClearPath() {
+        $.ajax({
+            type: "POST",
+            url: "/Home/ClearPath",
+            success: function (data) {
+                if (data.success === true) {
+                    for (var i = 0; i < data.clear.length; i++) {
+                        var square = document.getElementById(data.clear[i].x + ":" + data.clear[i].y);
+                        square.setAttribute("class", "square squareEmpty");
+                    }
+                }
+            }
+        });
+    }
+
+    function Solve() {
+        ClearPath();
+
+        $.ajax({
+            type: "POST",
+            url: "/Home/Solve",
+            data: { 
+                solveType : "BFS"
+            },
+            success: function (data) {
+                if (data.success === true) {
+                    for (var i = 0; i < data.path.length; i++) {
+                        var square = document.getElementById(data.path[i].x + ":" + data.path[i].y);
+                        square.setAttribute("class", "square squarePath");
+                    }
+                } else {
+                    alert(data.message);
+                }
+            }
+        });
+    }
+
     function SelectSquare(event, square) {
         if ( event.buttons === 1 ) {
+            ClearPath();
+
             $.ajax({
                 type: "POST",
                 url: "/Home/SelectCell",

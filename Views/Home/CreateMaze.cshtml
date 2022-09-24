@@ -10,19 +10,19 @@
                 <td>
                     @switch (Model.GetSquare(x, y).Type) {
                         case Square.SquareType.EMPTY:
-                            <div class="square squareEmpty" valuex="@(x)" valuey="@(y)"></div>
+                            <div id="@(Model.GetSquare(x,y).ToString())" class="square squareEmpty" valuex="@(x)" valuey="@(y)"></div>
                             break;
                         case Square.SquareType.WALL:
-                            <div class="square squareWall" valuex="@(x)" valuey="@(y)"></div>
+                            <div id="@(Model.GetSquare(x,y).ToString())" class="square squareWall" valuex="@(x)" valuey="@(y)"></div>
                             break;
                         case Square.SquareType.START:
-                            <div class="square squareStart" valuex="@(x)" valuey="@(y)"></div>
+                            <div id="@(Model.GetSquare(x,y).ToString())" class="square squareStart" valuex="@(x)" valuey="@(y)"></div>
                             break;
                         case Square.SquareType.END:
-                            <div class="square squareEnd" valuex="@(x)" valuey="@(y)"></div>
+                            <div id="@(Model.GetSquare(x,y).ToString())" class="square squareEnd" valuex="@(x)" valuey="@(y)"></div>
                             break;
                         case Square.SquareType.PATH:
-                            <div class="square squarePath" valuex="@(x)" valuey="@(y)"></div>
+                            <div id="@(Model.GetSquare(x,y).ToString())" class="square squarePath" valuex="@(x)" valuey="@(y)"></div>
                             break;
                     }
                 </td>

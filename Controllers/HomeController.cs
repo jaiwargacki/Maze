@@ -48,6 +48,43 @@ public class HomeController : Controller
         _mazes[mazeId].SetSquare(x, y, squareType);
         return true;
     }
+
+    [HttpPost]
+    public Object ClearPath() {
+        string? mazeId = HttpContext.Session.GetString(_mazeIdKey);
+        if (mazeId == null) {
+            return new {success = false};
+        }
+        Models.Maze maze = _mazes[mazeId];
+        HashSet<Square> clear = maze.ClearPath();
+        return new {success = true, clear = clear};
+    }
+
+    [HttpPost]
+    public Object Solve(string solveType)
+    {
+        string? mazeId = HttpContext.Session.GetString(_mazeIdKey);
+        if (mazeId == null) {
+            return new {success = false, message = "No maze created"};
+        }
+        Models.Maze maze = _mazes[mazeId];
+        if (maze.Start == null || maze.End == null) {
+            return new {success = false, message = "No start or end selected"};
+        }
+        Solver solver = new Solver(maze);
+        switch (solveType) {
+            case "BFS":
+                Stack<Square>? path = solver.BFS();
+                if (path == null) {
+                    return new {success = false, message = "No path found"};
+                } else {
+                    return new {success = true, path = path};
+                }
+            default:
+                return new {success = false, message = "Invalid solve type"};
+        }
+
+    }
     
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
