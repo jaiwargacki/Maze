@@ -16,9 +16,10 @@ public class Square
 
     public enum SquareType
     {
-        WALL,
-        EMPTY,
-        START,
-        END
+        EMPTY = 0,
+        WALL = 1,
+        START = 2,
+        END = 3,
+        PATH = 4
     }
 }

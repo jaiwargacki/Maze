@@ -1,9 +1,10 @@
 :root {
   --square-size: 2rem;
-  --square-color: white;
+  --square-empty-color: lightgrey;
   --square-wall-color: black;
-  --square-start-color: green;
-  --square-end-color: red;
+  --square-start-color: blue;
+  --square-end-color: green;
+  --square-path-color: red;
 }
 
 html {
@@ -29,23 +30,24 @@ body {
 .square {
   width: var(--square-size);
   height: var(--square-size);
-  background-color: var(--square-color);
+}
+
+.squareEmpty {
+  background-color: var(--square-empty-color);
 }
 
 .squareWall {
-  width: var(--square-size);
-  height: var(--square-size);
   background-color: var(--square-wall-color);
 }
 
 .squareStart {
-  width: var(--square-size);
-  height: var(--square-size);
   background-color: var(--square-start-color);
 }
 
 .squareEnd {
-  width: var(--square-size);
-  height: var(--square-size);
   background-color: var(--square-end-color);
+}
+
+.squarePath {
+  background-color: var(--square-path-color);
 }
