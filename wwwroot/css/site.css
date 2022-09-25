@@ -1,14 +1,22 @@
 :root {
   --square-size: 2rem;
+  --button-default-color: lightgrey;
+  --button-hover-color: grey;
+  --button-clicked-color: darkgrey;
   --square-empty-color: lightgrey;
   --square-wall-color: black;
   --square-start-color: blue;
   --square-end-color: green;
+  --square-consider-color: darkred;
   --square-path-color: red;
 }
 
 html {
   font-size: 14px;
+}
+
+.container {
+  max-width: max-content;
 }
 
 @media (min-width: 768px) {
@@ -26,10 +34,34 @@ body {
   margin-bottom: 60px;
 }
 
+/* Table */
+table {
+  margin: auto;
+}
+
+/* Button */
+button {
+  background-color: var(--button-default-color);
+  border: none;
+  box-shadow: none;
+  border-radius: 0.5rem;
+  width: 100%;
+  margin: 1rem;
+}
+
+button:hover {
+  background-color: var(--button-hover-color);
+}
+
+button.clicked {
+  background-color: var(--button-clicked-color);
+}
+
 /* Square Styling */
 .square {
   width: var(--square-size);
   height: var(--square-size);
+  border-radius: 0.5rem;
 }
 
 .squareEmpty {
@@ -50,4 +82,20 @@ body {
 
 .squarePath {
   background-color: var(--square-path-color);
+}
+
+.hoverEmpty div:hover {
+  background-color: var(--square-empty-color);
+}
+
+.hoverWall div:hover {
+  background-color: var(--square-wall-color);
+}
+
+.hoverStart div:hover {
+  background-color: var(--square-start-color);
+}
+
+.hoverEnd div:hover {
+  background-color: var(--square-end-color);
 }

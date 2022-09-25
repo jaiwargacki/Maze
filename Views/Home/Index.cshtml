@@ -2,151 +2,18 @@
     ViewData["Title"] = "Maze";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Maze</h1>
-    <div>
-        <table>
-            <tr>
-                <td>Width: </td>
-                <td><input id="WidthInput" type="number" name="width" min="3" max="100" value="10"/></td>
-                <td></td>
-                <td>Height: </td>
-                <td><input id="HeightInput" type="number" name="height" min="3" max="100" value="10"/></td>
-                <td><button id="CreateMaze" onclick="CreateMaze()">Create</button></td>
-            </tr>
-            <tr>
-                <td><button id="WALL" onclick="SelectSquareType(WALL)">Wall</button></td>
-                <td><button id="EMPTY" onclick="SelectSquareType(EMPTY)">Erase</button></td>
-                <td><button id="START" onclick="SelectSquareType(START)">Start</button></td>
-                <td><button id="END" onclick="SelectSquareType(END)">End</button></td>
-            </tr>
-            <tr>
-                <td><button id="SOLVE" onclick="Solve()">Solve</button></td>
-            </tr>
-        </table>
-    </div>
+<body>
     <div id="MazeContainer"></div>
-</div>
 
-<script>
-    // Constants for square types
-    const EMPTY = 0;
-    const WALL = 1;
-    const START = 2;
-    const END = 3;
-    const PATH = 4;
-    
-    var currentSquareType = WALL;
-    var currentStartSquare = null;
-    var currentEndSquare = null;
-
-    function SelectSquareType(squareType) {
-        currentSquareType = squareType;
-    }
-
-    function ClearPath() {
-        $.ajax({
-            type: "POST",
-            url: "/Home/ClearPath",
-            success: function (data) {
-                if (data.success === true) {
-                    for (var i = 0; i < data.clear.length; i++) {
-                        var square = document.getElementById(data.clear[i].x + ":" + data.clear[i].y);
-                        square.setAttribute("class", "square squareEmpty");
-                    }
-                }
-            }
-        });
-    }
-
-    function Solve() {
-        ClearPath();
-
-        $.ajax({
-            type: "POST",
-            url: "/Home/Solve",
-            data: { 
-                solveType : "BFS"
-            },
-            success: function (data) {
-                if (data.success === true) {
-                    for (var i = 0; i < data.path.length; i++) {
-                        var square = document.getElementById(data.path[i].x + ":" + data.path[i].y);
-                        square.setAttribute("class", "square squarePath");
-                    }
-                } else {
-                    alert(data.message);
-                }
-            }
-        });
-    }
-
-    function SelectSquare(event, square) {
-        if ( event.buttons === 1 ) {
-            ClearPath();
-
-            $.ajax({
-                type: "POST",
-                url: "/Home/SelectCell",
-                data: { 
-                    x: square.getAttribute('valuex'), 
-                    y: square.getAttribute('valuey'),
-                    squareTypeInt : currentSquareType
-                },
-                success: function (data) {
-                    if (data === true) {
-                        switch (currentSquareType) {
-                            case EMPTY:
-                                square.setAttribute('class', "square squareEmpty");
-                                break;
-                            case WALL:
-                                square.setAttribute('class', "square squareWall");
-                                break;
-                            case START:
-                                if (currentStartSquare != null) {
-                                    currentStartSquare.setAttribute('class', "square squareEmpty");
-                                }
-                                currentStartSquare = square;
-                                square.setAttribute('class', "square squareStart");
-                                break;
-                            case END:
-                                if (currentEndSquare != null) {
-                                    currentEndSquare.setAttribute('class', "square squareEmpty");
-                                }
-                                currentEndSquare = square;
-                                square.setAttribute('class', "square squareEnd");
-                                break;
-                            case PATH:
-                                square.setAttribute('class', "square squarePath");
-                                break;
-                        }
-                    }
-                }
-            });
-        }
-    }
-
-    function CreateMaze() {
-        $.ajax({
-            type: "POST",
-            url: "/Home/CreateMaze",
-            data: { 
-                width: document.getElementById('WidthInput').value, 
-                height: document.getElementById('HeightInput').value 
-            },
-            success: function (data) {
-                var mazeHolder = document.getElementById('MazeContainer')
-                mazeHolder.innerHTML = data;
-                var $squares = [].slice.call( document.querySelectorAll( '.square' ) );
-                $squares.map( function ( square ) {
-                    square.addEventListener( 'mousedown', function ( e ) {
-                        SelectSquare(e, square)
-                    } );
-                    square.addEventListener( 'mouseover', function ( e ) {
-                        SelectSquare(e, square)
-                    } );
-                } );
-            }
-        });
-    }
-</script>
+    <table>
+        <tr>
+            <td><button id="SQUARETYPE:0" class="clicked" onclick="SelectSquareType(EMPTY)">Erase</button></td>
+            <td><button id="SQUARETYPE:1" onclick="SelectSquareType(WALL)">Wall</button></td>
+            <td><button id="SQUARETYPE:2" onclick="SelectSquareType(START)">Start</button></td>
+            <td><button id="SQUARETYPE:3" onclick="SelectSquareType(END)">End</button></td>
+        </tr>
+        <tr>
+            <td colspan="4"><button id="SOLVE" onclick="Solve()">Solve</button></td>
+        </tr>
+    </table>
+</body>

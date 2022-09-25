@@ -1,4 +1,139 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿const EMPTY = 0;
+const WALL = 1;
+const START = 2;
+const END = 3;
+const PATH = 4;
 
-// Write your JavaScript code.
+var currentSquareType = EMPTY;
+var currentStartSquare = null;
+var currentEndSquare = null;
+
+function SelectSquareType(squareType) {
+    document.getElementById("SQUARETYPE:" + currentSquareType).removeAttribute("class");
+    document.getElementById("SQUARETYPE:" + squareType).setAttribute("class", "clicked");
+    currentSquareType = squareType;
+    var maze = document.getElementById('Maze');
+    switch (squareType) {
+        case EMPTY:
+            maze.setAttribute("class", "hoverEmpty");
+            break;
+        case WALL:
+            maze.setAttribute("class", "hoverWall");
+            break;
+        case START:
+            maze.setAttribute("class", "hoverStart");
+            break;
+        case END:
+            maze.setAttribute("class", "hoverEnd");
+            break;
+    }
+}
+
+function ClearPath() {
+    $.ajax({
+        type: "POST",
+        url: "/Home/ClearPath",
+        success: function (data) {
+            if (data.success === true) {
+                for (var i = 0; i < data.clear.length; i++) {
+                    var square = document.getElementById(data.clear[i].x + ":" + data.clear[i].y);
+                    square.setAttribute("class", "square squareEmpty");
+                }
+            }
+        }
+    });
+}
+
+function Solve() {
+    ClearPath();
+
+    $.ajax({
+        type: "POST",
+        url: "/Home/Solve",
+        data: { 
+            solveType : "BFS"
+        },
+        success: function (data) {
+            if (data.success === true) {
+                for (var i = 0; i < data.path.length; i++) {
+                    var square = document.getElementById(data.path[i].x + ":" + data.path[i].y);
+                    square.setAttribute("class", "square squarePath");
+                }
+            } else {
+                alert(data.message);
+            }
+        }
+    });
+}
+
+function SelectSquare(event, square) {
+    if ( event.buttons === 1 ) {
+        ClearPath();
+
+        $.ajax({
+            type: "POST",
+            url: "/Home/SelectCell",
+            data: { 
+                x: square.getAttribute('valuex'), 
+                y: square.getAttribute('valuey'),
+                squareTypeInt : currentSquareType
+            },
+            success: function (data) {
+                if (data === true) {
+                    switch (currentSquareType) {
+                        case EMPTY:
+                            square.setAttribute('class', "square squareEmpty");
+                            break;
+                        case WALL:
+                            square.setAttribute('class', "square squareWall");
+                            break;
+                        case START:
+                            if (currentStartSquare != null) {
+                                currentStartSquare.setAttribute('class', "square squareEmpty");
+                            }
+                            currentStartSquare = square;
+                            square.setAttribute('class', "square squareStart");
+                            break;
+                        case END:
+                            if (currentEndSquare != null) {
+                                currentEndSquare.setAttribute('class', "square squareEmpty");
+                            }
+                            currentEndSquare = square;
+                            square.setAttribute('class', "square squareEnd");
+                            break;
+                        case PATH:
+                            square.setAttribute('class', "square squarePath");
+                            break;
+                    }
+                }
+            }
+        });
+    }
+}
+
+function ResizeMaze() {
+    $.ajax({
+        type: "POST",
+        url: "/Home/ResizeMaze",
+        data: {
+            width: Math.floor((window.innerWidth * 0.8) / 32), 
+            height: Math.floor((window.innerHeight * 0.7) / 32) 
+        },
+        success: function (data) {
+            var mazeHolder = document.getElementById('MazeContainer')
+            mazeHolder.innerHTML = data;
+            var $squares = [].slice.call( document.querySelectorAll( '.square' ) );
+            $squares.map( function ( square ) {
+                square.addEventListener( 'mousedown', function ( e ) {
+                    SelectSquare(e, square)
+                } );
+                square.addEventListener( 'mouseover', function ( e ) {
+                    SelectSquare(e, square)
+                } );
+            } );
+        }
+    });
+    SelectSquareType(currentSquareType);
+}
+
+ResizeMaze();

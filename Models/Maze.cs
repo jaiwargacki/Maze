@@ -25,7 +25,7 @@ public class Maze
         {
             for (var y = 0; y < height; y++)
             {
-                _squares[x, y] = new Square(x, y, Square.SquareType.EMPTY);
+                _squares[x, y] = new Square(x, y, Square.SquareType.WALL);
             }
         }
     }

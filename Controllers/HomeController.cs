@@ -22,7 +22,7 @@ public class HomeController : Controller
     }
 
     [HttpPost]
-    public IActionResult CreateMaze(int width, int height)
+    public IActionResult ResizeMaze(int width, int height)
     {
         string? mazeId = HttpContext.Session.GetString(_mazeIdKey);
         if (mazeId == null)
