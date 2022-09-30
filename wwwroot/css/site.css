@@ -64,38 +64,42 @@ button.clicked {
   border-radius: 0.5rem;
 }
 
-.squareEmpty {
+.squareEMPTY {
   background-color: var(--square-empty-color);
 }
 
-.squareWall {
+.squareWALL {
   background-color: var(--square-wall-color);
 }
 
-.squareStart {
+.squareSTART {
   background-color: var(--square-start-color);
 }
 
-.squareEnd {
+.squareEND {
   background-color: var(--square-end-color);
 }
 
-.squarePath {
+.squarePATH {
   background-color: var(--square-path-color);
 }
 
-.hoverEmpty div:hover {
+.hoverEMPTY div:hover:not(.squareEND) {
   background-color: var(--square-empty-color);
+  cursor: cell;
 }
 
-.hoverWall div:hover {
+.hoverWALL div:hover:not(.squareWALL) {
   background-color: var(--square-wall-color);
+  cursor: cell;
 }
 
-.hoverStart div:hover {
+.hoverSTART div:hover:not(.squareSTART) {
   background-color: var(--square-start-color);
+  cursor: cell;
 }
 
-.hoverEnd div:hover {
+.hoverEND div:hover:not(.squareEND) {
   background-color: var(--square-end-color);
+  cursor: cell;
 }

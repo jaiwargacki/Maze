@@ -3,28 +3,12 @@
     Layout = null;
 }
 
-<table id="Maze" class="hoverEmpty">
+<table id="Maze" class="hoverEMPTY">
     @for(int y = 0; y < Model.Height; y++) {
         <tr>
             @for(int x = 0; x < Model.Width; x++) {
                 <td>
-                    @switch (Model.GetSquare(x, y).Type) {
-                        case Square.SquareType.EMPTY:
-                            <div id="@(Model.GetSquare(x,y).ToString())" class="square squareEmpty" valuex="@(x)" valuey="@(y)"></div>
-                            break;
-                        case Square.SquareType.WALL:
-                            <div id="@(Model.GetSquare(x,y).ToString())" class="square squareWall" valuex="@(x)" valuey="@(y)"></div>
-                            break;
-                        case Square.SquareType.START:
-                            <div id="@(Model.GetSquare(x,y).ToString())" class="square squareStart" valuex="@(x)" valuey="@(y)"></div>
-                            break;
-                        case Square.SquareType.END:
-                            <div id="@(Model.GetSquare(x,y).ToString())" class="square squareEnd" valuex="@(x)" valuey="@(y)"></div>
-                            break;
-                        case Square.SquareType.PATH:
-                            <div id="@(Model.GetSquare(x,y).ToString())" class="square squarePath" valuex="@(x)" valuey="@(y)"></div>
-                            break;
-                    }
+                    <div id="@(Model.GetSquare(x,y).ToString())" class="square square@(Model.GetSquare(x, y).Type)" valuex="@(x)" valuey="@(y)"></div>
                 </td>
             }
         </tr>

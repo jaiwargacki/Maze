@@ -15,16 +15,16 @@ function SelectSquareType(squareType) {
     var maze = document.getElementById('Maze');
     switch (squareType) {
         case EMPTY:
-            maze.setAttribute("class", "hoverEmpty");
+            maze.setAttribute("class", "hoverEMPTY");
             break;
         case WALL:
-            maze.setAttribute("class", "hoverWall");
+            maze.setAttribute("class", "hoverWALL");
             break;
         case START:
-            maze.setAttribute("class", "hoverStart");
+            maze.setAttribute("class", "hoverSTART");
             break;
         case END:
-            maze.setAttribute("class", "hoverEnd");
+            maze.setAttribute("class", "hoverEND");
             break;
     }
 }
@@ -37,7 +37,7 @@ function ClearPath() {
             if (data.success === true) {
                 for (var i = 0; i < data.clear.length; i++) {
                     var square = document.getElementById(data.clear[i].x + ":" + data.clear[i].y);
-                    square.setAttribute("class", "square squareEmpty");
+                    square.setAttribute("class", "square squareEMPTY");
                 }
             }
         }
@@ -57,7 +57,7 @@ function Solve() {
             if (data.success === true) {
                 for (var i = 0; i < data.path.length; i++) {
                     var square = document.getElementById(data.path[i].x + ":" + data.path[i].y);
-                    square.setAttribute("class", "square squarePath");
+                    square.setAttribute("class", "square squarePATH");
                 }
             } else {
                 alert(data.message);
@@ -82,27 +82,27 @@ function SelectSquare(event, square) {
                 if (data === true) {
                     switch (currentSquareType) {
                         case EMPTY:
-                            square.setAttribute('class', "square squareEmpty");
+                            square.setAttribute('class', "square squareEMPTY");
                             break;
                         case WALL:
-                            square.setAttribute('class', "square squareWall");
+                            square.setAttribute('class', "square squareWALL");
                             break;
                         case START:
                             if (currentStartSquare != null) {
-                                currentStartSquare.setAttribute('class', "square squareEmpty");
+                                currentStartSquare.setAttribute('class', "square squareEMPTY");
                             }
                             currentStartSquare = square;
-                            square.setAttribute('class', "square squareStart");
+                            square.setAttribute('class', "square squareSTART");
                             break;
                         case END:
                             if (currentEndSquare != null) {
-                                currentEndSquare.setAttribute('class', "square squareEmpty");
+                                currentEndSquare.setAttribute('class', "square squareEMPTY");
                             }
                             currentEndSquare = square;
-                            square.setAttribute('class', "square squareEnd");
+                            square.setAttribute('class', "square squareEND");
                             break;
                         case PATH:
-                            square.setAttribute('class', "square squarePath");
+                            square.setAttribute('class', "square squarePATH");
                             break;
                     }
                 }
