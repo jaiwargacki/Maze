@@ -44,8 +44,8 @@ function SelectSquareType(squareType) {
     document.getElementById("SQUARETYPE:" + squareType).setAttribute("class", "clicked");
     currentSquareType = squareType;
     var maze = document.getElementById('Maze');
-    var squareType = Object.keys(TYPES).find(key => TYPES[key] === data.update[i].type);
-    maze.setAttribute("class", "hover" + squareType);
+    var squareTypeText = Object.keys(TYPES).find(key => TYPES[key] === squareType);
+    maze.setAttribute("class", "hover" + squareTypeText);
 }
 
 /**
