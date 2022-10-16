@@ -18,6 +18,22 @@ public class Solver
     }
 
     /// <summary>
+    /// Solves the maze with the given function.
+    /// </summary>
+    /// <param name="solve">The function to solve the maze.</param>
+    /// <returns>The solution to the maze or null.</returns>
+    public Stack<Square>? Solve(SolverTypes type)
+    {
+        switch (type)
+        {
+            case SolverTypes.BFS:
+                return BFS();
+            default:
+                return null;
+        }
+    }
+
+    /// <summary>
     /// Solves the maze using a breadth-first search.
     /// </summary>
     /// <returns>The solution to the maze as a stack or null if it does not exist.</returns>
@@ -51,5 +67,13 @@ public class Solver
             }
             return path;
         }
+    }
+
+    /// <summary>
+    /// Options for solver algorithms.
+    /// </summary>
+    public enum SolverTypes
+    {
+        BFS
     }
 }

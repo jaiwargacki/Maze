@@ -21,12 +21,12 @@ function UpdateCells(data) {
         var square = document.getElementById(data.update[i].x + ":" + data.update[i].y);
         var squareType = Object.keys(TYPES).find(key => TYPES[key] === data.update[i].type);
         square.setAttribute("class", "square square" + squareType);
-        if (squareType === TYPES['START']) {
+        if (TYPES[squareType] === TYPES['START']) {
             if (currentStartSquare != null) {
                 currentStartSquare.setAttribute('class', "square squareEMPTY");
             }
             currentStartSquare = square;
-        } else if (squareType === TYPES['END']) {
+        } else if (TYPES[squareType]  === TYPES['END']) {
             if (currentEndSquare != null) {
                 currentEndSquare.setAttribute('class', "square squareEMPTY");
             }
@@ -79,13 +79,11 @@ function ClearPath() {
  * Finds a path from the start to the end.
  */
 function Solve() {
-    ClearPath();
-
     $.ajax({
         type: "POST",
         url: "/Home/Solve",
         data: { 
-            solveType : "BFS"
+            solveType : document.getElementById('SolveType').value
         },
         success: function (data) {
             if (data.success === true) {

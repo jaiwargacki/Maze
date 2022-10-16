@@ -100,7 +100,7 @@ public class HomeController : Controller
     /// <param name="solveType">Type of solve to perform</param>
     /// <returns>True if the maze was updated with the squares to update, false otherwise</returns>
     [HttpPost]
-    public Object Solve(string solveType)
+    public Object Solve(Solver.SolverTypes solveType)
     {
         string? mazeId = HttpContext.Session.GetString(_mazeIdKey);
         if (mazeId == null) {
@@ -110,19 +110,16 @@ public class HomeController : Controller
         if (maze.Start == null || maze.End == null) {
             return new {success = false, message = "No start or end selected"};
         }
+        // First clear any existing path
+        Stack<Square> update =  new Stack<Square>(maze.ClearPath().ToList());
         Solver solver = new Solver(maze);
-        switch (solveType) {
-            case "BFS":
-                Stack<Square>? path = solver.BFS();
-                if (path == null) {
-                    return new {success = false, message = "No path found"};
-                } else {
-                    return new {success = true, update = path};
-                }
-            default:
-                return new {success = false, message = "Invalid solve type"};
+        Stack<Square>? path = solver.Solve(solveType);
+        if (path == null) {
+            return new {success = false, message = "No path found"};
+        } else {
+            path.Reverse().ToList().ForEach(s => update.Push(s));
+            return new {success = true, update = path};
         }
-
     }
     
     /// <summary>

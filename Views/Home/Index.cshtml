@@ -13,7 +13,18 @@
             <td><button id="SQUARETYPE:3" onclick="SelectSquareType(TYPES['END'])">End</button></td>
         </tr>
         <tr>
-            <td colspan="4"><button id="SOLVE" onclick="Solve()">Solve</button></td>
+            <td colspan="4">
+                <table>
+                    <tr>
+                        <td>
+                            @Html.DropDownList("SolveType", new SelectList(Enum.GetValues(typeof(Solver.SolverTypes))), new {@class="form-control"})
+                        </td>
+                        <td>
+                            <button id="SOLVE" onclick="Solve()">Solve</button>
+                        </td>
+                    </tr>
+                </table>
+            </td>
         </tr>
     </table>
 </body>
