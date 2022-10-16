@@ -1,14 +1,26 @@
 namespace Maze.Models;
 
+/// <summary>
+/// The solver for the maze.
+/// </summary>
 public class Solver
 {
+    // The maze to solve
     private readonly Maze _maze;
 
+    /// <summary>
+    /// Constructor for the solver.
+    /// </summary>
+    /// <param name="maze">The maze to solve.</param>
     public Solver(Maze maze)
     {
         _maze = maze;
     }
 
+    /// <summary>
+    /// Solves the maze using a breadth-first search.
+    /// </summary>
+    /// <returns>The solution to the maze as a stack or null if it does not exist.</returns>
     public Stack<Square>? BFS()
     {
         HashSet<Square> visited = new HashSet<Square>();

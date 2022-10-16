@@ -64,17 +64,19 @@ public class HomeController : Controller
     /// <param name="x">X coordinate of the selection</param>
     /// <param name="y">Y coordinate of the selection</param>
     /// <param name="squareTypeInt">Type of the selection</param>
-    /// <returns>True if the maze was updated, false otherwise</returns>
+    /// <returns>True if the maze was updated with the square to update, false otherwise</returns>
     [HttpPost]
-    public bool SelectCell(int x, int y, int squareTypeInt)
+    public Object SelectCell(int x, int y, int squareTypeInt)
     {
         string? mazeId = HttpContext.Session.GetString(_mazeIdKey);
         if (mazeId == null) {
-            return false;
+            return new {success = false};
         }
         Square.SquareType squareType = (Square.SquareType) squareTypeInt;
         _mazes[mazeId].SetSquare(x, y, squareType);
-        return true;
+        HashSet<Square> update = new HashSet<Square>();
+        update.Add(_mazes[mazeId].GetSquare(x, y));
+        return new {success = true, update = update};
     }
 
     /// <summary>

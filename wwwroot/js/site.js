@@ -21,6 +21,17 @@ function UpdateCells(data) {
         var square = document.getElementById(data.update[i].x + ":" + data.update[i].y);
         var squareType = Object.keys(TYPES).find(key => TYPES[key] === data.update[i].type);
         square.setAttribute("class", "square square" + squareType);
+        if (squareType === TYPES['START']) {
+            if (currentStartSquare != null) {
+                currentStartSquare.setAttribute('class', "square squareEMPTY");
+            }
+            currentStartSquare = square;
+        } else if (squareType === TYPES['END']) {
+            if (currentEndSquare != null) {
+                currentEndSquare.setAttribute('class', "square squareEMPTY");
+            }
+            currentEndSquare = square;
+        }
     }
 }
 
@@ -104,32 +115,8 @@ function SelectSquare(event, square) {
                 squareTypeInt : currentSquareType
             },
             success: function (data) {
-                if (data === true) {
-                    switch (currentSquareType) {
-                        case TYPES['EMPTY']:
-                            square.setAttribute('class', "square squareEMPTY");
-                            break;
-                        case TYPES['WALL']:
-                            square.setAttribute('class', "square squareWALL");
-                            break;
-                        case TYPES['START']:
-                            if (currentStartSquare != null) {
-                                currentStartSquare.setAttribute('class', "square squareEMPTY");
-                            }
-                            currentStartSquare = square;
-                            square.setAttribute('class', "square squareSTART");
-                            break;
-                        case TYPES['END']:
-                            if (currentEndSquare != null) {
-                                currentEndSquare.setAttribute('class', "square squareEMPTY");
-                            }
-                            currentEndSquare = square;
-                            square.setAttribute('class', "square squareEND");
-                            break;
-                        case TYPES['PATH']:
-                            square.setAttribute('class', "square squarePATH");
-                            break;
-                    }
+                if (data.success  === true) {
+                    UpdateCells(data);
                 }
             }
         });
@@ -159,9 +146,10 @@ function ResizeMaze() {
                     SelectSquare(e, square)
                 } );
             } );
+            SelectSquareType(currentSquareType);
         }
     });
-    SelectSquareType(currentSquareType);
+    
 }
 
 // Initialize the maze
