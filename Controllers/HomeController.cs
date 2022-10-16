@@ -57,7 +57,7 @@ public class HomeController : Controller
         }
         Models.Maze maze = _mazes[mazeId];
         HashSet<Square> clear = maze.ClearPath();
-        return new {success = true, clear = clear};
+        return new {success = true, update = clear};
     }
 
     [HttpPost]
@@ -78,7 +78,7 @@ public class HomeController : Controller
                 if (path == null) {
                     return new {success = false, message = "No path found"};
                 } else {
-                    return new {success = true, path = path};
+                    return new {success = true, update = path};
                 }
             default:
                 return new {success = false, message = "Invalid solve type"};

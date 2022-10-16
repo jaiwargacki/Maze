@@ -1,12 +1,22 @@
-﻿const EMPTY = 0;
-const WALL = 1;
-const START = 2;
-const END = 3;
-const PATH = 4;
+﻿var TYPES = {
+    'EMPTY': 0,
+    'WALL': 1,
+    'START': 2,
+    'END': 3,
+    'PATH':4
+};
 
-var currentSquareType = EMPTY;
+var currentSquareType = TYPES['EMPTY'];
 var currentStartSquare = null;
 var currentEndSquare = null;
+
+function UpdateCells(data) {
+    for (var i = 0; i < data.update.length; i++) {
+        var square = document.getElementById(data.update[i].x + ":" + data.update[i].y);
+        var squareType = Object.keys(TYPES).find(key => TYPES[key] === data.update[i].type);
+        square.setAttribute("class", "square square" + squareType);
+    }
+}
 
 function SelectSquareType(squareType) {
     document.getElementById("SQUARETYPE:" + currentSquareType).removeAttribute("class");
@@ -14,16 +24,16 @@ function SelectSquareType(squareType) {
     currentSquareType = squareType;
     var maze = document.getElementById('Maze');
     switch (squareType) {
-        case EMPTY:
+        case TYPES['EMPTY']:
             maze.setAttribute("class", "hoverEMPTY");
             break;
-        case WALL:
+        case TYPES['WALL']:
             maze.setAttribute("class", "hoverWALL");
             break;
-        case START:
+        case TYPES['START']:
             maze.setAttribute("class", "hoverSTART");
             break;
-        case END:
+        case TYPES['END']:
             maze.setAttribute("class", "hoverEND");
             break;
     }
@@ -35,10 +45,7 @@ function ClearPath() {
         url: "/Home/ClearPath",
         success: function (data) {
             if (data.success === true) {
-                for (var i = 0; i < data.clear.length; i++) {
-                    var square = document.getElementById(data.clear[i].x + ":" + data.clear[i].y);
-                    square.setAttribute("class", "square squareEMPTY");
-                }
+                UpdateCells(data);
             }
         }
     });
@@ -55,10 +62,7 @@ function Solve() {
         },
         success: function (data) {
             if (data.success === true) {
-                for (var i = 0; i < data.path.length; i++) {
-                    var square = document.getElementById(data.path[i].x + ":" + data.path[i].y);
-                    square.setAttribute("class", "square squarePATH");
-                }
+                UpdateCells(data);
             } else {
                 alert(data.message);
             }
@@ -81,27 +85,27 @@ function SelectSquare(event, square) {
             success: function (data) {
                 if (data === true) {
                     switch (currentSquareType) {
-                        case EMPTY:
+                        case TYPES['EMPTY']:
                             square.setAttribute('class', "square squareEMPTY");
                             break;
-                        case WALL:
+                        case TYPES['WALL']:
                             square.setAttribute('class', "square squareWALL");
                             break;
-                        case START:
+                        case TYPES['START']:
                             if (currentStartSquare != null) {
                                 currentStartSquare.setAttribute('class', "square squareEMPTY");
                             }
                             currentStartSquare = square;
                             square.setAttribute('class', "square squareSTART");
                             break;
-                        case END:
+                        case TYPES['END']:
                             if (currentEndSquare != null) {
                                 currentEndSquare.setAttribute('class', "square squareEMPTY");
                             }
                             currentEndSquare = square;
                             square.setAttribute('class', "square squareEND");
                             break;
-                        case PATH:
+                        case TYPES['PATH']:
                             square.setAttribute('class', "square squarePATH");
                             break;
                     }
