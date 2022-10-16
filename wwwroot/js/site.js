@@ -44,20 +44,8 @@ function SelectSquareType(squareType) {
     document.getElementById("SQUARETYPE:" + squareType).setAttribute("class", "clicked");
     currentSquareType = squareType;
     var maze = document.getElementById('Maze');
-    switch (squareType) {
-        case TYPES['EMPTY']:
-            maze.setAttribute("class", "hoverEMPTY");
-            break;
-        case TYPES['WALL']:
-            maze.setAttribute("class", "hoverWALL");
-            break;
-        case TYPES['START']:
-            maze.setAttribute("class", "hoverSTART");
-            break;
-        case TYPES['END']:
-            maze.setAttribute("class", "hoverEND");
-            break;
-    }
+    var squareType = Object.keys(TYPES).find(key => TYPES[key] === data.update[i].type);
+    maze.setAttribute("class", "hover" + squareType);
 }
 
 /**
