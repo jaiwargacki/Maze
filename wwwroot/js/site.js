@@ -1,4 +1,5 @@
-﻿var TYPES = {
+﻿// Types of squares
+var TYPES = {
     'EMPTY': 0,
     'WALL': 1,
     'START': 2,
@@ -6,10 +7,15 @@
     'PATH':4
 };
 
+// Trackers for current square type and current start/end squares
 var currentSquareType = TYPES['EMPTY'];
 var currentStartSquare = null;
 var currentEndSquare = null;
 
+/**
+ * Updates the cells in the maze with the data from the server.
+ * @param {*} data data.upate contains an array of cells to update.
+ */
 function UpdateCells(data) {
     for (var i = 0; i < data.update.length; i++) {
         var square = document.getElementById(data.update[i].x + ":" + data.update[i].y);
@@ -18,6 +24,10 @@ function UpdateCells(data) {
     }
 }
 
+/**
+ * Update the html as needed for the current square type.
+ * @param {*} squareType int value of the square type.
+ */
 function SelectSquareType(squareType) {
     document.getElementById("SQUARETYPE:" + currentSquareType).removeAttribute("class");
     document.getElementById("SQUARETYPE:" + squareType).setAttribute("class", "clicked");
@@ -39,6 +49,9 @@ function SelectSquareType(squareType) {
     }
 }
 
+/**
+ * Clears the path on the maze.
+ */
 function ClearPath() {
     $.ajax({
         type: "POST",
@@ -51,6 +64,9 @@ function ClearPath() {
     });
 }
 
+/**
+ * Finds a path from the start to the end.
+ */
 function Solve() {
     ClearPath();
 
@@ -70,6 +86,11 @@ function Solve() {
     });
 }
 
+/**
+ * Selects a square on the maze and updates the server.
+ * @param {*} event event that triggered the selection.
+ * @param {*} square square that was selected.
+ */
 function SelectSquare(event, square) {
     if ( event.buttons === 1 ) {
         ClearPath();
@@ -115,6 +136,9 @@ function SelectSquare(event, square) {
     }
 }
 
+/**
+ * Creates the maze on the page.
+ */
 function ResizeMaze() {
     $.ajax({
         type: "POST",
@@ -140,4 +164,5 @@ function ResizeMaze() {
     SelectSquareType(currentSquareType);
 }
 
+// Initialize the maze
 ResizeMaze();
